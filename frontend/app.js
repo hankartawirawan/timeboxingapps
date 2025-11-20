@@ -3,7 +3,7 @@ import { TextField, Button, Select, MenuItem, Table, TableBody, TableCell, Table
 import { Alert } from '@mui/material';
 import axios from 'axios';
 
-const API_URL = 'https://your-project-name.vercel.app/api/projects';  // Gantilah dengan URL Vercel untuk backend
+const API_URL = 'http://timeboxingapps2.vercel.app';  // Gantilah dengan URL Vercel untuk backend
 
 const projectLimits = {
   small: 7,    // 1 week
