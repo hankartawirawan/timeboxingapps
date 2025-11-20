@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Alert } from "@mui/material";
 
-const API_URL = "https://your-project-name.vercel.app/api/projects"; // Ganti dengan URL Vercel yang sesuai
+const API_URL = "https://timeboxingapps2.vercel.app/"; // Ganti dengan URL Vercel yang sesuai
 
 const projectLimits = {
   small: 7, // 1 week
