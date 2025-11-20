@@ -30,29 +30,29 @@ const Project = mongoose.model("Project", projectSchema);
 
 // API Routes
 
-// Get all projects
+// GET all projects
 app.get("/projects", async (req, res) => {
   try {
     const projects = await Project.find();
-    res.status(200).json(projects);
+    res.status(200).json(projects); // Return all projects as JSON
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message }); // Error handling
   }
 });
 
-// Add a new project
+// POST a new project
 app.post("/projects", async (req, res) => {
   const { name, size } = req.body;
   const timeLimits = { small: 7, medium: 14, large: 28 };
 
-  // Validate if project size is valid
+  // Validate project size
   if (!timeLimits[size]) {
     return res.status(400).json({ message: "Invalid project size" });
   }
 
   const timeLimit = timeLimits[size];
 
-  // Validate if name is provided
+  // Validate required fields
   if (!name || !size) {
     return res.status(400).json({ message: "Project name and size are required" });
   }
@@ -64,14 +64,14 @@ app.post("/projects", async (req, res) => {
   });
 
   try {
-    const newProject = await project.save();
-    res.status(201).json(newProject);
+    const newProject = await project.save(); // Save the new project to DB
+    res.status(201).json(newProject); // Return the new project
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message }); // Error handling
   }
 });
 
-// Update project time spent
+// PUT (update) a project
 app.put("/projects/:id", async (req, res) => {
   const { id } = req.params;
   const { timeSpent } = req.body;
@@ -80,38 +80,38 @@ app.put("/projects/:id", async (req, res) => {
     const projectToUpdate = await Project.findById(id);
 
     if (!projectToUpdate) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: "Project not found" }); // Handle project not found
     }
 
-    // Validate if timeSpent exceeds timeLimit
+    // Validate time spent
     if (timeSpent > projectToUpdate.timeLimit) {
       return res.status(400).json({ message: "Time spent cannot exceed project time limit" });
     }
 
-    projectToUpdate.timeSpent = timeSpent;
+    projectToUpdate.timeSpent = timeSpent; // Update timeSpent field
     await projectToUpdate.save(); // Save the updated project
 
-    res.status(200).json(projectToUpdate);
+    res.status(200).json(projectToUpdate); // Return the updated project
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message }); // Error handling
   }
 });
 
-// Delete a project
+// DELETE a project
 app.delete("/projects/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
     const projectToDelete = await Project.findById(id);
-    
+
     if (!projectToDelete) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: "Project not found" }); // Handle project not found
     }
 
-    await projectToDelete.remove();
-    res.status(204).send(); // 204 No Content
+    await projectToDelete.remove(); // Delete the project from the database
+    res.status(204).send(); // No content response to indicate successful deletion
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message }); // Error handling
   }
 });
 
