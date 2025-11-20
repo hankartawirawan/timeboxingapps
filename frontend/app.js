@@ -3,7 +3,7 @@ import { TextField, Button, Select, MenuItem, Table, TableBody, TableCell, Table
 import { Alert } from '@mui/material';
 import axios from 'axios';
 
-const API_URL = 'https://timeboxingapps2.vercel.app/API/projects';';  // Gantilah dengan URL Vercel untuk backend
+const API_URL = 'https://timeboxingapps2.vercel.app/API/projects';  // Update with your backend URL
 
 const projectLimits = {
   small: 7,    // 1 week
@@ -44,6 +44,7 @@ function App() {
     const newProject = {
       name: projectName,
       size: projectSize,
+      timeLimit: projectLimits[projectSize],  // Add timeLimit here
     };
 
     try {
@@ -64,7 +65,7 @@ function App() {
     setProjects(updatedProjects);
 
     try {
-      await axios.put(`${API_URL}`, { id: projects[index].id, timeSpent: value });
+      await axios.put(`${API_URL}/${projects[index]._id}`, { timeSpent: value });
       validateTimeLimit(index, value);
     } catch (error) {
       setSnackbarMessage('Error updating time');
@@ -83,7 +84,7 @@ function App() {
 
   const finishProject = async (index) => {
     try {
-      await axios.delete(`${API_URL}?deleteId=${projects[index].id}`);
+      await axios.delete(`${API_URL}/${projects[index]._id}`);
       const updatedProjects = [...projects];
       updatedProjects.splice(index, 1);
       setProjects(updatedProjects);
