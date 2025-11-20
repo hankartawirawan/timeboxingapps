@@ -3,7 +3,7 @@ import { TextField, Button, Select, MenuItem, Table, TableBody, TableCell, Table
 import { Alert } from '@mui/material';
 import axios from 'axios';
 
-const API_URL = 'https://timeboxingapps2.vercel.app/API/projects';  // Update with your backend URL
+const API_URL = 'https://timeboxingapps2.vercel.app/backend/server';  // Update with your backend URL
 
 const projectLimits = {
   small: 7,    // 1 week
